@@ -156,7 +156,6 @@
                         widget.typeObj=dataJSON.data.items[0].objectType;
                         widget.ctx = ctx;
                         if (!objectId) {
-                            console.error("Error: objectId is missing");
                             return;
                         }
                         if(objectType=="Change Action"){
@@ -165,7 +164,6 @@
                             widget.urlWAF = urlREST;
                                 fetchData(function(data){
                                     if(data){
-                                        console.log("data recevied",data);
                                         const droppedData =[{title : data.title,description:data.description,type:data.type}]
                                         populateTable(droppedData);
                                     }else{
@@ -183,13 +181,11 @@
                                             let urlREST1 = "https://3dexperience23x.poc.intra.com/3dspace/resources/v1/modeler/documents/"+ objectId + "/files";
                                             widget.urlWAF = urlREST1;
                                             fetchData(function(data){
-                                                console.log('data is here from files',data);
                                                 const filelength = data.data.length;
                                                 console.log('data in ',data.data[0])
                                                 let pendingRequests = filelength;
                                                 for(let i=0;i<filelength;i++){
                                                    const dataid = data.data[i].id;
-                                                   console.log('dataid',dataid);
                                                    urlREST2 = "https://3dexperience23x.poc.intra.com/3dspace/resources/v1/modeler/documents/"+ dataid;
                                                    widget.urlWAF = urlREST2;
                                                     fetchData(function(data){
@@ -199,12 +195,10 @@
                                                                 description:data.data[0].dataelements.description,
                                                                 type:data.data[0].dataelements.type
                                                             }
-                                                            console.log("data added in addaata",adddata);
                                                             droppedData.push(adddata);
                                                             pendingRequests--;
                                                             
                                                             if (pendingRequests === 0) {
-                                                                console.log("All requests completed. Populating table...");
                                                                 populateTable(droppedData);
                                                             }
                                                         }
@@ -212,7 +206,6 @@
                                                 }
                                             }) 
                                         }else{
-                                            console.log("calling now yes",droppedData);
                                             populateTable(droppedData);
                                         }
                                     }else{
@@ -221,18 +214,12 @@
                                 })
                         }
                     } catch (error) {
-                        console.error('Error:', error);
                         dropzone.innerHTML = "<p style='color:red;'>Invalid JSON data. Please check the format.</p>";
                     }
                 }
             });
             function populateTable(data) {
-                console.log('called');
                 var table = document.getElementById("dataTable");
-                console.log("Data JSON:", JSON.stringify(data, null, 2));
-                console.log("Data Type:", typeof data);
-                console.log("Data Structure:", data);
-                console.log('data in ',data);
                     if (Array.isArray(data)) {
                         console.log("Data is an array", data[0]);
                         console.log("Data is an array", data[1]);
@@ -240,7 +227,6 @@
                 } else {
                     console.log("Data is not an array", data);
                 }
-                console.log("data  entreis",data.entries());
                table.innerHTML = ""; // Clear previous data
 
                 var headers = ["Title", "Type", "Description"];
@@ -253,7 +239,6 @@
                 });
 
                 table.appendChild(headerRow);
-                console.log("data length",data.length);
                 for (var i = 0; i < data.length; i++) {
                     var row = document.createElement("tr");
 
@@ -291,7 +276,6 @@
                     headers: headerWAF,
                     type: 'json',
                     onComplete: function(dataResp) {
-                        console.log('dataresponse',dataResp);
                         callback(dataResp);
                     },
                     onFailure: function(error) {

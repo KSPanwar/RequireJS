@@ -220,18 +220,9 @@
             });
             function populateTable(data) {
                 var table = document.getElementById("dataTable");
-                    if (Array.isArray(data)) {
-                        console.log("Data is an array", data[0]);
-                        console.log("Data is an array", data[1]);
-                        console.log("Data is an array", data);
-                } else {
-                    console.log("Data is not an array", data);
-                }
-               table.innerHTML = ""; // Clear previous data
-
+                table.innerHTML = ""; // Clear previous data
                 var headers = ["Title", "Type", "Description"];
                 var headerRow = document.createElement("tr");
-
                 headers.forEach(function(header) {
                     var th = document.createElement("th");
                     th.textContent = header;
